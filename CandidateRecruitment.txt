@@ -1,0 +1,95 @@
+Click Recruitment 
+Click Canditates
+Full Name FirstName Lastname
+Email
+Contact No
+
+
+Date of Application
+save button
+
+library class:
+package com.orangehrm.library;
+
+import org.openqa.selenium.By;
+
+public class Canditates extends OrangeHRMConstants{
+
+
+	Employee emp  =new Employee();
+	
+	public String fname = "rajender";
+	public String lname = "manda";
+	public String emailid = "mandarajender@gmail.com";
+	public String contactNo = "9177518988";
+	public String date ;
+	
+	
+	 public boolean addCandidate(String fname, String lname,String emailid,String contactNo,String date)
+	 {
+		String performeddt;
+		
+		  driver.findElement(By.linkText("Recruitment")).click();
+			driver.findElement(By.linkText("Candidates")).click();
+			driver.findElement(By.id("btnAdd")).click();
+			driver.findElement(By.id("addCandidate_firstName")).sendKeys(fname);
+			driver.findElement(By.id("addCandidate_lastName")).sendKeys(lname);
+			driver.findElement(By.id("addCandidate_email")).sendKeys(emailid);
+			driver.findElement(By.id("addCandidate_contactNo")).sendKeys(contactNo);
+			driver.findElement(By.id("addCandidate_appliedDate")).sendKeys(date);
+			driver.findElement(By.id("btnSave")).click();
+			performeddt = driver.findElement(By.xpath(".//*[@id='resultTable']/tbody/tr/td[1]")).getText();
+			if(date.equals(performeddt))
+			{
+				return true;
+			}
+			else
+			{
+			return false;
+			}
+	 }
+
+}
+Test:
+package com.orangehrm.tests;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.orangehrm.library.Canditates;
+import com.orangehrm.library.OrangeHRMConstants;
+import com.orangehrm.library.OrangeHRMLogin;
+
+
+	public class CanditateTest extends OrangeHRMConstants
+	{
+
+		OrangeHRMLogin hrm=new OrangeHRMLogin();
+		Canditates can = new Canditates();
+			@BeforeMethod
+			public void candidate_init()
+			{
+				hrm.Login(hrm.adminuid, hrm.adminpwd);
+			}
+			
+			
+			@Test
+			public void candidateTest()
+			{
+				
+				boolean res;
+				res= can.addCandidate(can.fname, can.lname,can.emailid,can.contactNo,can.date);
+				Assert.assertTrue(res, "Canditate not succesfully registered");
+				
+			}
+			
+			@AfterMethod
+			public void candidate_end()
+			{
+				hrm.logout();
+			}
+	}
+
+

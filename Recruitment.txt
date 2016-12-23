@@ -1,0 +1,9 @@
+Click Recruitment 
+Click Canditates
+Full Name FirstName Lastname
+Email
+Contact No
+
+
+Date of Application
+save button
